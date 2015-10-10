@@ -55,6 +55,8 @@ PROTOTYPE.toggle = function(state, event) {
 	// Set ARIA hidden attribute
 	$.attr(tooltip[0], 'aria-hidden', !!!state);
 
+	this.preshow = FALSE;
+
 	// Execute state specific properties
 	if(state) {
 		// Store show origin coordinates
@@ -83,7 +85,7 @@ PROTOTYPE.toggle = function(state, event) {
 	}
 	else {
 		// Clear show timer if we're hiding
-		clearTimeout(this.timers.show);
+		clearShowTimeout.call(this, event);
 
 		// Remove cached origin on hide
 		delete cache.origin;

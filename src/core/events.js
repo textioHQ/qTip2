@@ -8,17 +8,36 @@ function delay(callback, duration) {
 	else{ callback.call(this); }
 }
 
+function showDelay(callback, duration, event) {
+	this.preshow = TRUE;
+	this._trigger('preshow', duration, event);
+	return delay.call(this, function() {
+		this.preshow = FALSE;
+		callback.call(this);
+	}, duration);
+}
+
+function clearShowTimeout(event) {
+	var showCanceled = this.preshow === TRUE;
+	clearTimeout(this.timers.show);
+	this.preshow = FALSE;
+	if (showCanceled) {
+		this._trigger('preshowCanceled', null, event);
+	}
+}
+
 function showMethod(event) {
 	if(this.tooltip.hasClass(CLASS_DISABLED)) { return; }
 
 	// Clear hide timers
-	clearTimeout(this.timers.show);
+	clearShowTimeout.call(this.event);
 	clearTimeout(this.timers.hide);
 
 	// Start show timer
-	this.timers.show = delay.call(this,
+	this.timers.show = showDelay.call(this,
 		function() { this.toggle(TRUE, event); },
-		this.options.show.delay
+		this.options.show.delay,
+		event
 	);
 }
 
@@ -31,7 +50,7 @@ function hideMethod(event) {
 		ontoTarget = relatedTarget[0] === this.options.show.target[0];
 
 	// Clear timers and stop animation queue
-	clearTimeout(this.timers.show);
+	clearShowTimeout.call(this, event);
 	clearTimeout(this.timers.hide);
 
 	// Prevent hiding if tooltip is fixed and event target is the tooltip.
@@ -193,17 +212,18 @@ PROTOTYPE._assignInitialEvents = function(event) {
 		this.cache.target = event && $(event.target);
 
 		// Start the event sequence
-		clearTimeout(this.timers.show);
-		this.timers.show = delay.call(this,
-			function() { this.render(typeof event === 'object' || options.show.ready); },
-			options.prerender ? 0 : options.show.delay
-		);
+		clearShowTimeout.call(this, event);
+		var show = typeof event === 'object' || options.show.ready;
+		var handler = function() { this.render(show); };
+		var duration = options.prerender ? 0 : options.show.delay;
+		this.timers.show = show ? showDelay.call(this, handler, duration, event) :
+			delay.call(this, handler, duration);
 	}
 
 	// Filter and bind events
-	this._bindEvents(showEvents, hideEvents, showTarget, hideTarget, hoverIntent, function() {
+	this._bindEvents(showEvents, hideEvents, showTarget, hideTarget, hoverIntent, function(event) {
 		if(!this.timers) { return FALSE; }
-		clearTimeout(this.timers.show);
+		clearShowTimeout.call(this, event);
 	});
 
 	// Prerendering is enabled, create tooltip now
@@ -253,8 +273,8 @@ PROTOTYPE._assignEvents = function() {
 	 * mouseenter/mouseout is used for show.event, even if it isn't in the users options.
 	 */
 	else if(/mouse(over|enter)/i.test(options.show.event)) {
-		this._bind(hideTarget, 'mouseleave', function() {
-			clearTimeout(this.timers.show);
+		this._bind(hideTarget, 'mouseleave', function(event) {
+			clearShowTimeout.call(self, event);
 		});
 	}
 

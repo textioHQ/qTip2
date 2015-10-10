@@ -26,7 +26,8 @@ function QTip(target, options, id, attr) {
 
 	// Set the initial flags
 	this.rendered = this.destroyed = this.disabled = this.waiting =
-		this.hiddenDuringWait = this.positioning = this.triggering = FALSE;
+		this.hiddenDuringWait = this.positioning = this.triggering = 
+		this.preshow = FALSE;
 }
 PROTOTYPE = QTip.prototype;
 
