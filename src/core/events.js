@@ -10,6 +10,7 @@ function delay(callback, duration) {
 
 function showDelay(callback, duration, event) {
 	this.preshow = TRUE;
+	this.render(FALSE);
 	this._trigger('preshow', duration, event);
 	return delay.call(this, function() {
 		this.preshow = FALSE;
@@ -30,7 +31,7 @@ function showMethod(event) {
 	if(this.tooltip.hasClass(CLASS_DISABLED)) { return; }
 
 	// Clear hide timers
-	clearShowTimeout.call(this.event);
+	clearShowTimeout.call(this, event);
 	clearTimeout(this.timers.hide);
 
 	// Start show timer

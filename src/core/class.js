@@ -36,6 +36,11 @@ PROTOTYPE._when = function(deferreds) {
 };
 
 PROTOTYPE.render = function(show) {
+	if (this.rendered && !this.destroyed && (show || this.options.show.ready)) {
+		this.toggle(TRUE, this.cache.event, FALSE);
+		return this;
+	}
+
 	if(this.rendered || this.destroyed) { return this; } // If tooltip has already been rendered, exit
 
 	var self = this,
