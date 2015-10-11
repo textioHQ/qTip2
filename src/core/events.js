@@ -11,6 +11,9 @@ function delay(callback, duration) {
 function showDelay(callback, duration, event) {
 	this.preshow = TRUE;
 	this.render(FALSE);
+	// Due to ordering of the mousemove handlers, the new mouse coordinates may not have been saved yet
+	// Save them here before triggering preshow (This is a no-op if the event is not a mousemove)
+	this._storeMouse(event);
 	this._trigger('preshow', duration, event);
 	return delay.call(this, function() {
 		this.preshow = FALSE;
