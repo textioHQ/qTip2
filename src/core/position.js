@@ -38,6 +38,16 @@ PROTOTYPE.reposition = function(event, effect) {
 		position = { left: target[0], top: target[1] };
 	}
 
+	// Check if an absolute rectangle was passed
+	else if($.isPlainObject(target)) {
+		targetWidth = target.right - target.left;
+		targetHeight = target.bottom - target.top;
+
+		position = { left: target.left, top: target.top };
+		position.left += at.x === RIGHT ? targetWidth : at.x === CENTER ? targetWidth / 2 : 0;
+		position.top += at.y === BOTTOM ? targetHeight : at.y === CENTER ? targetHeight / 2 : 0;
+	}
+
 	// Check if mouse was the target
 	else if(target === 'mouse') {
 		// Force left top to allow flipping
@@ -270,7 +280,7 @@ C.string = function(join) {
 	var x = this.x, y = this.y;
 
 	var result = x !== y ?
-		(x === 'center' || y !== 'center' && (this.precedance === Y || this.forceY) ? 
+		(x === 'center' || y !== 'center' && (this.precedance === Y || this.forceY) ?
 			[y,x] : [x,y]
 		) :
 	[x];

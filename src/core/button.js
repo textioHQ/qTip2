@@ -21,7 +21,7 @@ PROTOTYPE._createButton = function()
 		})
 		.prepend(
 			$('<span />', {
-				'class': 'ui-icon ui-icon-close',
+				'class': 'ui-icon ui-icon icon-close',
 				'html': '&times;'
 			})
 		);
