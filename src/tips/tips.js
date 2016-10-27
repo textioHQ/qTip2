@@ -469,11 +469,6 @@ $.extend(Tip.prototype, {
 		// Adjust for tip size
 		position[ corner[precedance] ] -= size[ precedance === X ? 0 : 1 ];
 
-		// Zoom fix: Force the tip to be 1px overlapping with the rest of the tooltip
-		// This prevents any visible gaps when the page is zoomed.
-		overlap = position[ corner[precedance] ] > 0 ? -1 : 1;
-		position[ corner[precedance] ] += overlap;
-
 		// Set and return new position
 		tip.css({ margin: '', top: '', bottom: '', left: '', right: '' }).css(position);
 		return position;
