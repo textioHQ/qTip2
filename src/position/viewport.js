@@ -13,7 +13,7 @@ PLUGINS.viewport = function(api, position, posOptions, targetWidth, targetHeight
 		cache = api.cache,
 		adjusted = { left: 0, top: 0 },
 		fixed, newMy, containerOffset, containerStatic,
-		viewportWidth, viewportHeight, viewportScroll, viewportOffset;
+		viewportWidth, viewportHeight, viewportScroll, viewportOffset, viewportDeflate;
 
 	// If viewport is not a jQuery element, or it's the window/document, or no adjustment method is used... return
 	if(!viewport.jquery || target[0] === window || target[0] === document.body || adjust.method === 'none') {
@@ -30,6 +30,13 @@ PLUGINS.viewport = function(api, position, posOptions, targetWidth, targetHeight
 	viewportHeight = viewport[0] === window ? viewport.height() : viewport.outerHeight(FALSE);
 	viewportScroll = { left: fixed ? 0 : viewport.scrollLeft(), top: fixed ? 0 : viewport.scrollTop() };
 	viewportOffset = viewport.offset() || adjusted;
+
+	// Deflate (or inflate) the viewport edges
+	viewportDeflate = posOptions.viewportDeflate;
+	viewportOffset.top += viewportDeflate.top;
+	viewportOffset.left += viewportDeflate.left;
+	viewportHeight -= (viewportDeflate.top + viewportDeflate.bottom);
+	viewportWidth -= (viewportDeflate.left + viewportDeflate.right);
 
 	// Generic calculation method
 	function calculate(side, otherSide, type, adjust, side1, side2, lengthName, targetLength, elemLength) {

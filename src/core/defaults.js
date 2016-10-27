@@ -28,6 +28,12 @@ QTIP.defaults = {
 		target: FALSE,
 		container: FALSE,
 		viewport: FALSE,
+		viewportDeflate: {
+			top: 0,
+			left: 0,
+			bottom: 0,
+			right: 0
+		},
 		adjust: {
 			x: 0, y: 0,
 			mouse: TRUE,
