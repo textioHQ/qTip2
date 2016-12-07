@@ -107,22 +107,23 @@ PROTOTYPE._storeMouse = function(event) {
 PROTOTYPE._bind = function(targets, events, method, suffix, context) {
 	if(!targets || !method || !events.length) { return; }
 	var ns = '.' + this._id + (suffix ? '-'+suffix : '');
-	$(targets).bind(
+	$(targets).on(
 		(events.split ? events : events.join(ns + ' ')) + ns,
 		$.proxy(method, context || this)
 	);
 	return this;
 };
 PROTOTYPE._unbind = function(targets, suffix) {
-	targets && $(targets).unbind('.' + this._id + (suffix ? '-'+suffix : ''));
+	targets && $(targets).off('.' + this._id + (suffix ? '-'+suffix : ''));
 	return this;
 };
 
 // Global delegation helper
 function delegate(selector, events, method) {
-	$(document.body).delegate(selector,
+	$(document.body).on(
 		(events.split ? events : events.join('.'+NAMESPACE + ' ')) + '.'+NAMESPACE,
-		function() {
+        selector,
+        function() {
 			var api = QTIP.api[ $.attr(this, ATTR_ID) ];
 			api && !api.disabled && method.apply(api, arguments);
 		}
@@ -392,7 +393,7 @@ PROTOTYPE._unassignEvents = function() {
 		._unbind(targets, 'inactive');
 };
 
-// Apply common event handlers using delegate (avoids excessive .bind calls!)
+// Apply common event handlers using delegate (avoids excessive .on calls!)
 $(function() {
 	delegate(SELECTOR, ['mouseenter', 'mouseleave'], function(event) {
 		var state = event.type === 'mouseenter',

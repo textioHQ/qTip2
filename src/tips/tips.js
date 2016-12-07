@@ -1,6 +1,6 @@
 var TIP,
 
-// .bind()/.on() namespace
+// .on() namespace
 TIPNS = '.qtip-tip',
 
 // Common CSS strings
