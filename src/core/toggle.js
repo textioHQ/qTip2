@@ -68,7 +68,7 @@ PROTOTYPE.toggle = function(state, event) {
 
 		// Cache mousemove events for positioning purposes (if not already tracking)
 		if(!trackingBound && posOptions.target === 'mouse' && posOptions.adjust.mouse) {
-			$(document).bind('mousemove.'+NAMESPACE, this._storeMouse);
+			$(document).on('mousemove.'+NAMESPACE, this._storeMouse);
 			trackingBound = TRUE;
 		}
 
@@ -92,7 +92,7 @@ PROTOTYPE.toggle = function(state, event) {
 
 		// Remove mouse tracking event if not needed (all tracking qTips are hidden)
 		if(trackingBound && !$(SELECTOR+'[tracking="true"]:visible', opts.solo).not(tooltip).length) {
-			$(document).unbind('mousemove.'+NAMESPACE);
+			$(document).off('mousemove.'+NAMESPACE);
 			trackingBound = FALSE;
 		}
 
