@@ -29,7 +29,7 @@ PLUGINS.viewport = function(api, position, posOptions, targetWidth, targetHeight
 	viewportWidth = viewport[0] === window ? viewport.width() : viewport.outerWidth(FALSE);
 	viewportHeight = viewport[0] === window ? viewport.height() : viewport.outerHeight(FALSE);
 	viewportScroll = { left: fixed ? 0 : viewport.scrollLeft(), top: fixed ? 0 : viewport.scrollTop() };
-	viewportOffset = viewport.offset() || adjusted;
+	viewportOffset = (viewport[0] !== window && viewport.offset()) || adjusted;
 
 	// Deflate (or inflate) the viewport edges
 	viewportDeflate = posOptions.viewportDeflate;
