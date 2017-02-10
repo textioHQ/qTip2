@@ -131,6 +131,10 @@ PROTOTYPE.render = function(show) {
 
 	// When deferreds have completed
 	this._when(deferreds).then(function() {
+		if (self.destroyed) {
+			// The tooltip was destroyed before the render was complete. Just drop further processing
+			return;
+		}
 		// tooltiprender event
 		self._trigger('render');
 
