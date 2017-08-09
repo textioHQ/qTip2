@@ -1,0 +1,14 @@
+*.diff
+*.patch
+*~
+*.swp
+.DS_Store
+/npm-debug.log
+grunt/
+libs/
+node_modules/
+src/
+.jshintrc
+.travis.yml
+Gruntfile.js
+make_beta.sh
