@@ -1,14 +1,14 @@
 {
-  "name": "qTip2",
+  "name": "@textio/qtip2",
   "title": "qTip2 - Pretty powerful tooltips",
   "description": "Introducing... qTip2. The second generation of the advanced qTip plugin for the ever popular jQuery framework.",
-  "version": "2.2.1",
+  "version": "2.3.0",
   "homepage": "http://qtip2.com",
   "author": "Craig Michael Thompson <craig@craigsworks.com> (http://craigsworks.com/)",
   "main": "dist/jquery.qtip.js",
   "repository": {
     "type": "git",
-    "url": "git://github.com/qTip2/qTip2.git"
+    "url": "git://github.com/textioHQ/qTip2.git"
   },
   "keywords": [
     "tooltip",
@@ -23,7 +23,7 @@
     "craga89"
   ],
   "bugs": {
-    "url": "https://github.com/qTip2/qTip2/issues"
+    "url": "https://github.com/textioHQ/qTip2/issues"
   },
   "licenses": [
     {
@@ -45,8 +45,11 @@
     "load-grunt-config": "~0.17.1"
   },
   "scripts": {
-    "build": "npm install && grunt",
-    "start": "grunt",
-    "test": "grunt dev"
+    "build": "npm install && grunt --plugins=\"tips viewport svg\"",
+    "prepack": "npm run build",
+    "start": "grunt --plugins=\"tips viewport svg\"",
+    "test": "grunt dev",
+    "rev": "npm version patch && git push --follow-tags",
+    "revbeta": "sh ./make_beta.sh && npm version prerelease && git push --follow-tags"
   }
 }
