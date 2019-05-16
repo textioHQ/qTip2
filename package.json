@@ -6,6 +6,7 @@
   "homepage": "http://qtip2.com",
   "author": "Craig Michael Thompson <craig@craigsworks.com> (http://craigsworks.com/)",
   "main": "dist/jquery.qtip.js",
+  "types": "dist/types/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git://github.com/textioHQ/qTip2.git"
@@ -32,6 +33,7 @@
     }
   ],
   "devDependencies": {
+    "@types/jquery": "^3.3.10",
     "grunt": "~0.4.5",
     "grunt-cli": "~0.1.13",
     "grunt-contrib-clean": "~0.6.0",
